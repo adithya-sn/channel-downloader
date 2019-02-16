@@ -25,7 +25,6 @@ url = "https://www.youtube.com/user/%s/videos" % (channel)
 browser.get(url)
 time.sleep(3)
 source = browser.page_source
-print(len(source))
 if(len(source) < 100000): # Channel doesn't exist
     print("[Channel Downloader] URL: %s" % (url))
     sys.exit("[Channel Downloader] There was an error while loading the channel at the URL above, check if it exists. Exiting.")
@@ -75,7 +74,7 @@ def prog_hook(d):
         print("[Channel Downloader] %d/%d videos downloaded." % (downloaded, size), end='\r')
 
 ytd_options = {
-        'outtmpl': f'downloads/{channel}/%(title)s.%(ext)s',
+        'outtmpl': 'downloads/{}/%(title)s.%(ext)s'.format(channel),
         'format': 'bestaudio/best',
         'postprocessors': [{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'}],
         'logger': Logger(),
@@ -83,3 +82,5 @@ ytd_options = {
 
 with youtube_dl.YoutubeDL(ytd_options) as dl:
     dl.download(videos)
+
+print("[Channel Downloader] Finished downloading %d videos from '%s'!" % (size, channel))
