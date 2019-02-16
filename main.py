@@ -13,21 +13,21 @@ if not os.path.exists("downloads/"):
     print("[Channel Downloader] Downloads folder doesn't exist, creating one.")
     os.makedirs("downloads/")
 
-if not os.path.exists(f"downloads/{channel}/"):
-    os.makedirs(f"downloads/{channel}/")
+if not os.path.exists("downloads/%s/" % (channel)):
+    os.makedirs("downloads/%s/" % (channel))
 
-print(f"[Channel Downloader] Starting download on youtube channel '{channel}'.")
+print("[Channel Downloader] Starting download on youtube channel '%s'." % channel)
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 browser = webdriver.Chrome(chrome_options=chrome_options)
 
-url = f"https://www.youtube.com/user/{channel}/videos"
+url = "https://www.youtube.com/user/%s/videos" % (channel)
 browser.get(url)
 time.sleep(3)
 source = browser.page_source
 print(len(source))
 if(len(source) < 100000): # Channel doesn't exist
-    print(f"[Channel Downloader] URL: {url}")
+    print("[Channel Downloader] URL: %s" % (url))
     sys.exit("[Channel Downloader] There was an error while loading the channel at the URL above, check if it exists. Exiting.")
 
 
@@ -56,7 +56,7 @@ for link_raw in videos_raw:
 # Start download using youtube_dl
 downloaded = 0
 size = len(videos)
-print(f"[Channel Downloader] {downloaded}/{size} videos downloaded.", end='\r')
+print("[Channel Downloader] %d/%d videos downloaded." % (downloaded, size), end='\r')
 
 class Logger(object):
     def debug(self, msg):
@@ -72,7 +72,7 @@ def prog_hook(d):
     if(d['status'] == 'finished'):
         global downloaded
         downloaded += 1
-        print(f"[Channel Downloader] {downloaded}/{size} videos downloaded.", end='\r')
+        print("[Channel Downloader] %d/%d videos downloaded." % (downloaded, size), end='\r')
 
 ytd_options = {
         'outtmpl': f'downloads/{channel}/%(title)s.%(ext)s',
