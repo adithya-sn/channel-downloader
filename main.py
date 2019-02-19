@@ -37,7 +37,6 @@ elif("/user/" in channel):
     channel = url.split("/")[-2]
 else:
     url = "https://youtube.com/user/%s/videos" % (channel)
-print(url)
 print("[Channel Downloader] Loading entire channel page...")
 
 browser.get(url)
@@ -101,7 +100,7 @@ def prog_hook(d):
 
 ytd_options = {
         'outtmpl': 'downloads/{}/%(title)s.%(ext)s'.format(channel),
-        'format': 'bestaudio/best',
+        'format': 'best',
         'postprocessors': [{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'}],
         'logger': Logger(),
         'progress_hooks': [prog_hook],}
